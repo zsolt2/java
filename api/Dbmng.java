@@ -1,7 +1,5 @@
 package api;
 
-
-
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -18,7 +16,7 @@ public class Dbmng {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.exit(0);
-       }
+        }
     }
 
     public Dbmng(String path) {
@@ -26,36 +24,36 @@ public class Dbmng {
         dbm = new Dbmethods();
     }
 
-    ///Termék beszúrása
-    public void insertProduct(Product p) throws SQLException, DbmngException{
-        if( doesProductExist(p.getPid()) != 0){
-            throw new DbmngException("Ilyen kulcsú rekord már létezik: "+ p.getPid());    
+    /// Termék beszúrása
+    public void insertProduct(Product p) throws SQLException, DbmngException {
+        if (doesProductExist(p.getPid()) != 0) {
+            throw new DbmngException("Ilyen kulcsú rekord már létezik: " + p.getPid());
         }
 
         dbm.connect(path);
-        dbm.insert("Product",p.values());
+        dbm.insert("Product", p.values());
         dbm.disconnect();
     }
-    
-    ///Panasz beszúrása
+
+    /// Panasz beszúrása
     public void insertComplaint(Complaint c) throws SQLException, DbmngException {
-        if(doesComplaintExist(c.getCid()) != 0){
-            throw new DbmngException("Ilyen kulcsú panasz már létezik: " + c.getCid() );
+        if (doesComplaintExist(c.getCid()) != 0) {
+            throw new DbmngException("Ilyen kulcsú panasz már létezik: " + c.getCid());
         }
-        
-        if(doesProductExist(c.getPid())==0){
-            throw new DbmngException("Nincs ilyen kulcsú termék: " + c.getPid() );
-        }        
-        
+
+        if (doesProductExist(c.getPid()) == 0) {
+            throw new DbmngException("Nincs ilyen kulcsú termék: " + c.getPid());
+        }
+
         dbm.connect(path);
         dbm.insert("Complaint", c.values());
         dbm.disconnect();
     }
 
-    ///Van-e ilyen kulcsú panasz az adatbázisban
-    public int doesComplaintExist(int cid) throws SQLException{
+    /// Van-e ilyen kulcsú panasz az adatbázisban
+    public int doesComplaintExist(int cid) throws SQLException {
         dbm.connect(path);
-        
+
         String sql = "select count(*) ids from complaint where cid='" + cid + "';";
         rs = dbm.createStatementAndExecuteQuery(sql);
 
@@ -64,10 +62,10 @@ public class Dbmng {
         return pidekSzama;
     }
 
-    ///Van-e ilyen termék az adatbázisban
-    public int doesProductExist(int pid) throws SQLException{
+    /// Van-e ilyen termék az adatbázisban
+    public int doesProductExist(int pid) throws SQLException {
         dbm.connect(path);
-        
+
         String sql = "select count(*) ids from product where pid='" + pid + "';";
         rs = dbm.createStatementAndExecuteQuery(sql);
 
@@ -76,65 +74,65 @@ public class Dbmng {
         return pidekSzama;
     }
 
-    ///Termék lekérdezése az adatbázisból
-    public Product getProduct( int pid ) throws Exception{
-        
-        if( doesProductExist(pid) == 0 ){
-            throw new DbmngException("Nincs ilyen kulcsú termék: " + pid );
+    /// Termék lekérdezése az adatbázisból
+    public Product getProduct(int pid) throws Exception {
+
+        if (doesProductExist(pid) == 0) {
+            throw new DbmngException("Nincs ilyen kulcsú termék: " + pid);
         }
 
         dbm.connect(path);
 
         String sql = "select pid, name, price, stock from Product where pid=" + pid;
-        
+
         rs = dbm.createStatementAndExecuteQuery(sql);
 
         Product p = new Product();
 
-        while( rs.next() ){
-            p.setPid( rs.getInt("pid") );
-            p.setName( rs.getString("name") );
-            p.setPrice( rs.getInt("price") );
-            p.setStock( rs.getInt("stock") );
+        while (rs.next()) {
+            p.setPid(rs.getInt("pid"));
+            p.setName(rs.getString("name"));
+            p.setPrice(rs.getInt("price"));
+            p.setStock(rs.getInt("stock"));
         }
 
         dbm.disconnect();
         return p;
     }
 
-    ///Panasz lekérdezése az adatbázisból
-    public Complaint getComplaint( int cid) throws Exception{
-        if( doesComplaintExist(cid) == 0 ){
+    /// Panasz lekérdezése az adatbázisból
+    public Complaint getComplaint(int cid) throws Exception {
+        if (doesComplaintExist(cid) == 0) {
             throw new DbmngException("Ilyen ilyen kulcsú panasz: " + cid);
         }
         dbm.connect(path);
         String sql = "select cid, pid, description from Complaint where cid=" + cid;
         rs = dbm.createStatementAndExecuteQuery(sql);
         Complaint c = new Complaint();
-        while( rs.next()){
-            c.setCid( rs.getInt("cid"));
-            c.setPid( rs.getInt("pid"));
-            c.setDescription( rs.getString("description"));
+        while (rs.next()) {
+            c.setCid(rs.getInt("cid"));
+            c.setPid(rs.getInt("pid"));
+            c.setDescription(rs.getString("description"));
         }
         dbm.disconnect();
         return c;
     }
 
-    ///Több termék lekérdezése egy tömbben
-    public ArrayList<Product> getProductsFromDatabase() throws SQLException{
+    /// Több termék lekérdezése egy tömbben
+    public ArrayList<Product> getProductsFromDatabase() throws SQLException {
         ArrayList<Product> products = new ArrayList<Product>();
         dbm.connect(path);
 
         String sql = "select pid, name, price, stock from Product;";
-        
+
         rs = dbm.createStatementAndExecuteQuery(sql);
 
-        while( rs.next() ){
+        while (rs.next()) {
             Product p = new Product();
-            p.setPid( rs.getInt("pid") );
-            p.setName( rs.getString("name") );
-            p.setPrice( rs.getInt("price") );
-            p.setStock( rs.getInt("stock") );
+            p.setPid(rs.getInt("pid"));
+            p.setName(rs.getString("name"));
+            p.setPrice(rs.getInt("price"));
+            p.setStock(rs.getInt("stock"));
             products.add(p);
         }
 
@@ -142,11 +140,11 @@ public class Dbmng {
         return products;
     }
 
-    ///Tetszőleges select parancs futtatása
-    public Table selectQuery( String sql ) throws SQLException, DbmngException{
+    /// Tetszőleges select parancs futtatása
+    public Table selectQuery(String sql) throws SQLException, DbmngException {
         sql.strip();
 
-        if( !sql.substring(0, 6).equalsIgnoreCase("select") )
+        if (!sql.substring(0, 6).equalsIgnoreCase("select"))
             throw new DbmngException("Nem select parancs!");
 
         dbm.connect(path);
@@ -155,70 +153,71 @@ public class Dbmng {
         Table t = createTableFromResultSet(rs);
 
         dbm.disconnect();
-        
+
         return t;
     }
 
-    ///Az adatbázisban található összes tábla nevének lekérdezése
-    public Table getAllTableNames() throws SQLException{
+    /// Az adatbázisban található összes tábla nevének lekérdezése
+    public Table getAllTableNames() throws SQLException {
         dbm.connect(path);
         rs = dbm.getConnection().getMetaData().getTables(null, null, null, null);
 
-        Table t = createTableFromResultSet(rs, new String[]{"TABLE_NAME"});
+        Table t = createTableFromResultSet(rs, new String[] { "TABLE_NAME" });
 
         dbm.disconnect();
 
         return t;
     }
 
-    private Table createTableFromResultSet( ResultSet rs ) throws SQLException {
+    /// A resultsetet átalakítjuk táblává
+    private Table createTableFromResultSet(ResultSet rs) throws SQLException {
         ResultSetMetaData rsmd = rs.getMetaData();
         int numColumns = rsmd.getColumnCount();
 
         ArrayList<String[]> rows = new ArrayList<String[]>();
         String[] headers = new String[numColumns];
-        
-        for( int j = 0; j < numColumns; j++){
-            headers[j] = rsmd.getColumnName(j+1);
+
+        for (int j = 0; j < numColumns; j++) {
+            headers[j] = rsmd.getColumnName(j + 1);
         }
 
-        while( rs.next() ){
+        while (rs.next()) {
             String[] row = new String[numColumns];
-            for( int i = 0; i<numColumns; i++ ){
-                row[i] = rs.getString(i+1);
+            for (int i = 0; i < numColumns; i++) {
+                row[i] = rs.getString(i + 1);
             }
             rows.add(row);
         }
 
-        return new Table( headers, rows);
+        return new Table(headers, rows);
     }
 
-    private Table createTableFromResultSet( ResultSet rs, String[] fields ) throws SQLException {
+    private Table createTableFromResultSet(ResultSet rs, String[] fields) throws SQLException {
         int numColumns = fields.length;
 
         ArrayList<String[]> rows = new ArrayList<String[]>();
         String[] headers = new String[numColumns];
-        
-        for( int j = 0; j < numColumns; j++){
+
+        for (int j = 0; j < numColumns; j++) {
             headers[j] = fields[j];
         }
 
-        while( rs.next() ){
+        while (rs.next()) {
             String[] row = new String[numColumns];
-            for( int i = 0; i<numColumns; i++ ){
+            for (int i = 0; i < numColumns; i++) {
                 row[i] = rs.getString(fields[i]);
             }
             rows.add(row);
         }
 
-        return new Table( headers, rows);
-    } 
+        return new Table(headers, rows);
+    }
 
     public Table tableInfo(String tableName) throws SQLException {
         Table t = null;
         dbm.connect(path);
 
-        String sqlp = "pragma table_info("+tableName+");";
+        String sqlp = "pragma table_info(" + tableName + ");";
         rs = dbm.createStatementAndExecuteQuery(sqlp);
         t = createTableFromResultSet(rs);
         dbm.disconnect();
@@ -228,21 +227,21 @@ public class Dbmng {
     public void deleteFromComplaint(int cid) throws SQLException {
         doesComplaintExist(cid);
         dbm.connect(path);
-        String sql = "delete from complaint where cid="+cid; 
+        String sql = "delete from complaint where cid=" + cid;
         dbm.commandExec(sql);
         dbm.disconnect();
     }
 
     public void deleteFromProduct(int pid) throws SQLException, DbmngException {
         doesProductExist(pid);
-        Table t = selectQuery("select cid from complaint where pid=" + pid );
-        
-        if( ! t.isEmpty() ){
+        Table t = selectQuery("select cid from complaint where pid=" + pid);
+
+        if (!t.isEmpty()) {
             throw new DbmngException("A termékre mutat egy idegenkulcs!");
         }
 
         dbm.connect(path);
-        String sql = "delete from product where pid="+pid; 
+        String sql = "delete from product where pid=" + pid;
         dbm.commandExec(sql);
         dbm.disconnect();
     }
