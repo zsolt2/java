@@ -5,7 +5,7 @@ import api.Product;
 
 public class EntityCreator {
 	public static Product createProduct() {
-		System.out.println("Ăšj termĂ©k felvitele:");
+		System.out.println("Új termék felvitele:");
 		Product p = new Product();
 		boolean ok = false;
 		do {
@@ -16,7 +16,7 @@ public class EntityCreator {
 					p.setPid(pid);
 					ok = true;
 				} else {
-					System.out.println("Ilyen kulcsĂş termĂ©k mĂˇr lĂ©tezik: ");
+					System.out.println("Ilyen kulcsú termék már létezik: ");
 				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
@@ -24,14 +24,14 @@ public class EntityCreator {
 			}
 		} while (!ok);
 
-		String name = Utils.readString("NĂ©v: ");
+		String name = Utils.readString("Név: ");
 		p.setName(name);
 
-		System.out.println("Ă�r: ");
+		System.out.println("Ár: ");
 		int price = Utils.readIntInRange(0, Integer.MAX_VALUE);
 		p.setPrice(price);
 
-		System.out.println("MennyisĂ©g: ");
+		System.out.println("Mennység: ");
 		int stock = Utils.readIntInRange(0, Integer.MAX_VALUE);
 		p.setStock(stock);
 
@@ -39,7 +39,7 @@ public class EntityCreator {
 	}
 
 	public static Complaint createComplaint() {
-		System.out.println("Ăšj panasz felvitele:");
+		System.out.println("Új panasz felvitele:");
 		Complaint c = new Complaint();
 		boolean ok = false;
 		do {
@@ -48,11 +48,10 @@ public class EntityCreator {
 
 			try {
 				if (Main.getDbm().doesComplaintExist(cid) == 0) {
-					System.out.println("Beolvasott cid: " + cid);
 					c.setCid(cid);
 					ok = true;
 				} else {
-					System.out.println("Ilyen kulcsĂş panasz mĂˇr lĂ©tezik!");
+					System.out.println("Ilyen kulcsú panasz már létezik!");
 				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
@@ -69,7 +68,7 @@ public class EntityCreator {
 					c.setPid(pid);
 					ok = true;
 				} else {
-					System.out.println("Nincs ilyen kulcsĂş termĂ©k!");
+					System.out.println("Nincs ilyen kulcsú termék!");
 				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
@@ -77,7 +76,7 @@ public class EntityCreator {
 			}
 		} while (!ok);
 
-		String description = Utils.readString("LeĂ­rĂˇs: ");
+		String description = Utils.readString("Leírás: ");
 
 		c.setDescription(description);
 		return c;

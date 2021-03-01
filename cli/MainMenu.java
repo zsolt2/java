@@ -6,8 +6,7 @@ import api.Table;
 
 public class MainMenu {
 	public static void Print() {
-		Menu mainMenu = new Menu("Főmenü", new String[] { "Tábla listázása", "Lekérdezés", "Tábla leírás",
-				"Rekord hozzáadás", "Rekord törlése" }, "vege");
+		Menu mainMenu = new Menu("Főmenü", new String[] { "Tábla listázása", "Lekérdezés", "Tábla leírás", "Rekord hozzáadás", "Rekord törlése" }, "");
 		boolean running = true;
 		while (running == true) {
 			switch (mainMenu.handleMenu()) {
@@ -17,7 +16,7 @@ public class MainMenu {
 			case 2: // tetszőleges lekérdezés
 				sqlRequestMenu();
 				break;
-			case 3:// tábla leírasa
+			case 3:// tábla leírása
 				describeTableMenu();
 				break;
 			case 4:// Rekord hozzáadása
@@ -40,12 +39,13 @@ public class MainMenu {
 		String tableName = null;
 		do {
 			tableName = TableSelectMenu.getChoosenTable();
-			System.out.println(tableName);
 			try {
 				if (!tableName.isEmpty()) {
 					Table t = Main.getDbm().selectQuery("select * from " + tableName + " ;");
-					System.out.println(t);
 					t.print();
+					if(t.isEmpty()){
+						System.out.println("A tábla üres");
+					}
 					Utils.waitForInput("");
 				}
 			} catch (Exception e) {
@@ -82,7 +82,6 @@ public class MainMenu {
 		String tableName = "";
 		do {
 			tableName = TableSelectMenu.getChoosenTable();
-			System.out.println(tableName);
 			try {
 				if (!tableName.isEmpty()) {
 					Table t = Main.getDbm().tableInfo(tableName);
@@ -100,7 +99,6 @@ public class MainMenu {
 		String tableName = "";
 		do {
 			tableName = TableSelectMenu.getChoosenTable();
-			System.out.println(tableName);
 			try {
 				if (tableName.equalsIgnoreCase("product")) {
 					Product p = EntityCreator.createProduct();
@@ -109,7 +107,6 @@ public class MainMenu {
 					Utils.waitForInput("");
 				} else if (tableName.equalsIgnoreCase("complaint")) {
 					Complaint c = EntityCreator.createComplaint();
-					System.out.println(c);
 					Main.getDbm().insertComplaint(c);
 					System.out.println("Panasz sikeresen beszúrva a táblába!");
 					Utils.waitForInput("");
@@ -125,7 +122,6 @@ public class MainMenu {
 		String tableName = "";
 		do {
 			tableName = TableSelectMenu.getChoosenTable();
-			System.out.println(tableName);
 			try {
 				if (tableName.equalsIgnoreCase("product")) {
 					boolean ok = false;
@@ -133,13 +129,14 @@ public class MainMenu {
 						try {
 							System.out.println("Pid:");
 							int pid = Utils.readIntInRange(0, Integer.MAX_VALUE);
-							System.out.println("Beolvasott pid: " + pid);
 							Main.getDbm().deleteFromProduct(pid);
+							System.out.println("Sikeresen törölve");
+							Utils.waitForInput("Nyomj entert a folytatáshoz");
 							ok = true;
 						} catch (Exception e) {
 							ok = false;
 							System.out.println(e.getMessage());
-							Utils.waitForInput("");
+							Utils.waitForInput("Nyomj entert a folytatáshoz");
 						}
 					} while (!ok);
 				} else if (tableName.equalsIgnoreCase("complaint")) {
@@ -149,11 +146,13 @@ public class MainMenu {
 							System.out.println("Cid:");
 							int cid = Utils.readIntInRange(0, Integer.MAX_VALUE);
 							Main.getDbm().deleteFromComplaint(cid);
+							System.out.println("Sikeresen törölve");
+							Utils.waitForInput("Nyomj entert a folytatáshoz");
 							ok = true;
 						} catch (Exception e) {
 							ok = false;
 							System.out.println(e.getMessage());
-							Utils.waitForInput("");
+							Utils.waitForInput("Nyomj entert a folytatáshoz");
 						}
 					} while (!ok);
 				}

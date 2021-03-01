@@ -18,7 +18,7 @@ public class Utils {
 				input = Integer.parseInt(s);
 				ok = true;
 			} catch (Exception e) {
-				System.out.println("Nem megfeleo input");
+				System.out.println("Nem megfelő input");
 			}
 		} while (ok != true);
 		return input;
@@ -34,9 +34,9 @@ public class Utils {
 				if (input >= min && input <= max)
 					ok = true;
 				else
-					System.out.println("Nem megfelo input");
+					System.out.println("Nem megfelő input");
 			} catch (Exception e) {
-				System.out.println("Nem megfeleo input");
+				System.out.println("Nem megfelelő input");
 			}
 		} while (ok != true);
 		return input;
@@ -44,7 +44,7 @@ public class Utils {
 
 	public static void waitForInput(String msg) {
 		if (msg.isEmpty()) {
-			msg = "Nyomj Entert a visszalépéshez!";
+			msg = "Nyomjon Entert a visszalépéshez!";
 		}
 		System.err.println(msg);
 		in.nextLine();
@@ -60,32 +60,4 @@ public class Utils {
 		return in.nextLine();
 	}
 
-	/*
-	 * public static boolean doesArrayContainString(String[] strArray, String str){
-	 * for(String s: strArray ){ if( s == str ) return true; } return false; }
-	 * 
-	 * public static void printTable( ArrayList<? extends Agent> agents ){ if(
-	 * agents.isEmpty() == true ) return;
-	 * 
-	 * int numColumns = agents.get(0).getFields().length; ArrayList<String[]> rows =
-	 * new ArrayList<String[]>(); int[] maxLengths = new int[numColumns];
-	 * 
-	 * for (Agent agent : agents) { rows.add(agent.getTableRow()); }
-	 * 
-	 * for( int i = 0; i < maxLengths.length; i++ ){ for( String[] s: rows ){ if(
-	 * maxLengths[i] < s[i].length() ) maxLengths[i] = s[i].length(); } }
-	 * 
-	 * String Template = "| "; for( int j = 0; j < maxLengths.length; j++ ){
-	 * Template += "%" + (j==0?"-":"") + ( maxLengths[j] + 2) + "s |"; }
-	 * System.out.println(Template);
-	 * 
-	 * String header = String.format( Template , (Object[])
-	 * agents.get(0).getFields() ); System.out.println(header);
-	 * 
-	 * String line = ""; for( int i = 0; i < header.length(); i++ ) line += "=";
-	 * 
-	 * System.out.println(line); Template += "%n"; for (Agent agent : agents) {
-	 * System.out.printf( Template,(Object[]) agent.getTableRow() ); }
-	 * System.out.println(line); }
-	 */
 }

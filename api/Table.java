@@ -100,7 +100,6 @@ public class Table {
 		}
 
 		String headerLine = String.format(Template, (Object[]) header);
-		// System.out.printf( Template,(Object[]) agents.get(0).getFields() )
 		String lineBold = "";
 		String line = "";
 		for (int i = 0; i < headerLine.length(); i++) {
@@ -114,7 +113,6 @@ public class Table {
 
 		Template += "%n";
 		for (String[] row : rows) {
-			// System.out.println(agent.getTableRow());
 			System.out.printf(Template, (Object[]) row);
 			if (row != rows.get(rows.size() - 1))
 				System.out.println(line);

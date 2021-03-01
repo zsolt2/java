@@ -8,7 +8,7 @@ public class TableSelectMenu {
 			Table t = Main.getDbm().getAllTableNames();
 			String[] tables = t.getColumn(1);
 			if (tables == null) {
-				System.out.println("Nincsennek tablák az adatbázisban!");
+				System.out.println("Nincsennek táblák az adatbázisban!");
 			}
 			while (true) {
 				Menu tableSelectMenu = new Menu("Válasszon egy táblát: ", tables, "");
