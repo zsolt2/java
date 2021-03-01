@@ -24,7 +24,12 @@ public class Dbmng {
         dbm = new Dbmethods();
     }
 
-    /// Termék beszúrása
+    /**
+     * Termék beszúrása
+     * @param p
+     * @throws SQLException
+     * @throws DbmngException
+     */
     public void insertProduct(Product p) throws SQLException, DbmngException {
         if (doesProductExist(p.getPid()) != 0) {
             throw new DbmngException("Ilyen kulcsú rekord már létezik: " + p.getPid());
@@ -35,7 +40,12 @@ public class Dbmng {
         dbm.disconnect();
     }
 
-    /// Panasz beszúrása
+    /**
+     * Panasz beszúrása
+     * @param c
+     * @throws SQLException
+     * @throws DbmngException
+     */ 
     public void insertComplaint(Complaint c) throws SQLException, DbmngException {
         if (doesComplaintExist(c.getCid()) != 0) {
             throw new DbmngException("Ilyen kulcsú panasz már létezik: " + c.getCid());
@@ -50,7 +60,12 @@ public class Dbmng {
         dbm.disconnect();
     }
 
-    /// Van-e ilyen kulcsú panasz az adatbázisban
+    /**
+     * Van-e ilyen kulcsú panasz az adatbázisban
+     * @param cid
+     * @return
+     * @throws SQLException
+     */ 
     public int doesComplaintExist(int cid) throws SQLException {
         dbm.connect(path);
 
@@ -62,7 +77,12 @@ public class Dbmng {
         return pidekSzama;
     }
 
-    /// Van-e ilyen termék az adatbázisban
+    /**
+     * Van-e ilyen kulcsú panasz az adatbázisban
+     * @param pid
+     * @return
+     * @throws SQLException
+     */
     public int doesProductExist(int pid) throws SQLException {
         dbm.connect(path);
 
@@ -74,7 +94,12 @@ public class Dbmng {
         return pidekSzama;
     }
 
-    /// Termék lekérdezése az adatbázisból
+    /**
+     * Termék lekérdezése az adatbázisból
+     * @param pid
+     * @return
+     * @throws Exception
+     */
     public Product getProduct(int pid) throws Exception {
 
         if (doesProductExist(pid) == 0) {
@@ -100,7 +125,12 @@ public class Dbmng {
         return p;
     }
 
-    /// Panasz lekérdezése az adatbázisból
+    /**
+     * Panasz lekérdezése az adatbázisból
+     * @param cid
+     * @return
+     * @throws Exception
+     */
     public Complaint getComplaint(int cid) throws Exception {
         if (doesComplaintExist(cid) == 0) {
             throw new DbmngException("Ilyen ilyen kulcsú panasz: " + cid);
@@ -118,7 +148,11 @@ public class Dbmng {
         return c;
     }
 
-    /// Több termék lekérdezése egy tömbben
+    /**
+     * Több termék lekérdezése egy tömbben
+     * @return
+     * @throws SQLException
+     */
     public ArrayList<Product> getProductsFromDatabase() throws SQLException {
         ArrayList<Product> products = new ArrayList<Product>();
         dbm.connect(path);
@@ -140,7 +174,13 @@ public class Dbmng {
         return products;
     }
 
-    /// Tetszőleges select parancs futtatása
+    /**
+     * Tetszőleges select parancs futtatása
+     * @param sql
+     * @return
+     * @throws SQLException
+     * @throws DbmngException
+     */
     public Table selectQuery(String sql) throws SQLException, DbmngException {
         sql.strip();
 
@@ -157,7 +197,11 @@ public class Dbmng {
         return t;
     }
 
-    /// Az adatbázisban található összes tábla nevének lekérdezése
+    /**
+     * Az adatbázisban található összes tábla nevének lekérdezése
+     * @return
+     * @throws SQLException
+     */
     public Table getAllTableNames() throws SQLException {
         dbm.connect(path);
         rs = dbm.getConnection().getMetaData().getTables(null, null, null, null);
@@ -169,7 +213,12 @@ public class Dbmng {
         return t;
     }
 
-    /// A resultsetet átalakítjuk táblává
+    /**
+     * A resultsetet átalakítjuk táblává
+     * @param rs
+     * @return
+     * @throws SQLException
+     */
     private Table createTableFromResultSet(ResultSet rs) throws SQLException {
         ResultSetMetaData rsmd = rs.getMetaData();
         int numColumns = rsmd.getColumnCount();
@@ -192,6 +241,13 @@ public class Dbmng {
         return new Table(headers, rows);
     }
 
+    /**
+     * Tábla létrehozása Result set-ből
+     * @param rs
+     * @param fields
+     * @return
+     * @throws SQLException
+     */
     private Table createTableFromResultSet(ResultSet rs, String[] fields) throws SQLException {
         int numColumns = fields.length;
 
@@ -213,6 +269,13 @@ public class Dbmng {
         return new Table(headers, rows);
     }
 
+    /**
+     * Tábla metaadat lekérdezése
+     * @param tableName
+     * @return
+     * @throws SQLException
+     */
+
     public Table tableInfo(String tableName) throws SQLException {
         Table t = null;
         dbm.connect(path);
@@ -223,7 +286,11 @@ public class Dbmng {
         dbm.disconnect();
         return t;
     }
-
+    /**
+     * Panasz törlése. Csak olyan panasz törölhető, amely létezik.
+     * @param cid
+     * @throws SQLException
+     */
     public void deleteFromComplaint(int cid) throws SQLException {
         doesComplaintExist(cid);
         dbm.connect(path);
@@ -232,6 +299,12 @@ public class Dbmng {
         dbm.disconnect();
     }
 
+    /**
+     * Termék törlése. Csak olyan termék törölhető, amely létezik, és nem mutat rá idegen kulcs
+     * @param pid
+     * @throws SQLException
+     * @throws DbmngException
+     */
     public void deleteFromProduct(int pid) throws SQLException, DbmngException {
         doesProductExist(pid);
         Table t = selectQuery("select cid from complaint where pid=" + pid);
