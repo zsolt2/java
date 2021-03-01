@@ -306,7 +306,9 @@ public class Dbmng {
      * @throws DbmngException
      */
     public void deleteFromProduct(int pid) throws SQLException, DbmngException {
-        doesProductExist(pid);
+        if( doesProductExist(pid) == 0) {
+            throw new DbmngException("Ilyen rekord nincs a táblában");
+        }
         Table t = selectQuery("select cid from complaint where pid=" + pid);
 
         if (!t.isEmpty()) {
