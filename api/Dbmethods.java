@@ -20,21 +20,39 @@ public class Dbmethods {
 		return this.s;
 	}
 
-	// regisztrálás
+	/**
+	 * Regisztrálás
+	 * @throws ClassNotFoundException
+	 */
 	public static void reg() throws ClassNotFoundException {
 		Class.forName("org.sqlite.JDBC");
 	}
 
+	/**
+	 * Kapcsolódás az adatbázis kezelő driverhez
+	 * @param path
+	 * @throws SQLException
+	 */
 	public void connect(String path) throws SQLException {
 		String url = "jdbc:sqlite:" + path;
 		conn = DriverManager.getConnection(url);
 	}
 
+	/**
+	 * Lekapcsolódás
+	 * @throws SQLException
+	 */
+
 	public void disconnect() throws SQLException {
 		conn.close();
 	}
 
-	// Beszúrás több elemet
+	/**
+	 * Több elem beszúrása a táblába
+	 * @param table
+	 * @param str
+	 * @throws SQLException
+	 */
 	public void insert(String table, String... str) throws SQLException {
 		String sqlp = "insert into " + table + " vlaues( ";
 		for (String s : str) {
@@ -45,13 +63,23 @@ public class Dbmethods {
 		commandExec(sqlp);
 	}
 
-	// Beszúrás egy elemet
+	/**
+	 * Egy elem beszúrása a táblába
+	 * @param table
+	 * @param str
+	 * @throws SQLException
+	 */
 	public void insert(String table, String str) throws SQLException {
 		String sqlp = "insert into " + table + " values( " + str + ");";
 		commandExec(sqlp);
 
 	}
 
+	/**
+	 * Parancs végrehajtása
+	 * @param command
+	 * @throws SQLException
+	 */
 	public void commandExec(String command) throws SQLException {
 		s = conn.createStatement();
 		s.execute(command);
