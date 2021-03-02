@@ -50,11 +50,11 @@ public class MainMenu {
 					if(t.isEmpty()){
 						System.out.println("A tábla üres");
 					}
-					Utils.waitForInput("");
+					InputManager.waitForInput("");
 				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
-				Utils.waitForInput("");
+				InputManager.waitForInput("");
 			}
 		} while (!tableName.isEmpty());
 	}
@@ -63,7 +63,7 @@ public class MainMenu {
 		boolean back = false;
 		while (back == false) {
 			// Utils.clearScreen();
-			String command = Utils.readString("Adj meg egy SQL lekérdezést: ");
+			String command = InputManager.readString("Adj meg egy SQL lekérdezést: ");
 			try {
 				Table t = Main.getDbm().selectQuery(command);
 				if (t.isEmpty()) {
@@ -75,7 +75,7 @@ public class MainMenu {
 				System.out.println("Hibás lekérdezés!");
 				System.out.println(e.getMessage());
 			} finally {
-				String input = Utils.readString("Új lekérdezés(I/N): ");
+				String input = InputManager.readString("Új lekérdezés(I/N): ");
 				if (!input.equalsIgnoreCase("i"))
 					back = true;
 			}
@@ -90,7 +90,7 @@ public class MainMenu {
 				if (!tableName.isEmpty()) {
 					Table t = Main.getDbm().tableInfo(tableName);
 					t.print();
-					Utils.waitForInput("");
+					InputManager.waitForInput("");
 				}
 			} catch (Exception e) {
 				ExceptionHandler.handle(e);
@@ -107,12 +107,12 @@ public class MainMenu {
 					Product p = EntityCreator.createProduct();
 					Main.getDbm().insertProduct(p);
 					System.out.println("Termék sikeresen beszúrva a táblába!");
-					Utils.waitForInput("");
+					InputManager.waitForInput("");
 				} else if (tableName.equalsIgnoreCase("complaint")) {
 					Complaint c = EntityCreator.createComplaint();
 					Main.getDbm().insertComplaint(c);
 					System.out.println("Panasz sikeresen beszúrva a táblába!");
-					Utils.waitForInput("");
+					InputManager.waitForInput("");
 				}
 			} catch (Exception e) {
 				ExceptionHandler.handle(e);
@@ -129,10 +129,10 @@ public class MainMenu {
 					boolean ok = false;
 					do {
 						try {
-							int pid = Utils.readIntInRange(0, Integer.MAX_VALUE, "Pid:");
+							int pid = InputManager.readIntInRange(0, Integer.MAX_VALUE, "Pid:");
 							Main.getDbm().deleteFromProduct(pid);
 							System.out.println("Sikeresen törölve");
-							Utils.waitForInput("Nyomj entert a folytatáshoz");
+							InputManager.waitForInput("Nyomj entert a folytatáshoz");
 							ok = true;
 						} catch (Exception e) {
 							ok = false;
@@ -143,10 +143,10 @@ public class MainMenu {
 					boolean ok = false;
 					do {
 						try {
-							int cid = Utils.readIntInRange(0, Integer.MAX_VALUE, "Cid:");
+							int cid = InputManager.readIntInRange(0, Integer.MAX_VALUE, "Cid:");
 							Main.getDbm().deleteFromComplaint(cid);
 							System.out.println("Sikeresen törölve");
-							Utils.waitForInput("Nyomj entert a folytatáshoz");
+							InputManager.waitForInput("Nyomj entert a folytatáshoz");
 							ok = true;
 						} catch (Exception e) {
 							ok = false;

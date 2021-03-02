@@ -5,7 +5,7 @@ import java.util.Scanner;
  * Ez a statikus osztály a beolvasásokat kezeli.
  * @since 01-03-2021 
  */
-public class Utils {
+public class InputManager {
 
 	public static char delimiter = '\t';
 

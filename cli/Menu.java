@@ -32,7 +32,7 @@ public class Menu {
 	 * Menü kiírása. 
 	 */
 	public void print() {
-		Utils.clearScreen();
+		InputManager.clearScreen();
 		System.out.println(header);
 		int i = 0;
 		for (i = 0; i < options.length; i++) {
@@ -49,11 +49,11 @@ public class Menu {
 	 */
 	public int handleMenu() {
 		print();
-		return Utils.readIntInRange(1, this.options.length + 1, null);
+		return InputManager.readIntInRange(1, this.options.length + 1, null);
 	}
 
 	/**
-	 * Az utolsó opció mindig a {@code "vissza"} opció. Ezzel a függvénnyel lekérdezhetjük, hogy mi a {@code "vissza"} opció kódja.
+	 * Ezzel a függvénnyel lekérdezhetjük, hogy mi a {@code "vissza"} opció kódja. Az utolsó opció mindig a {@code "vissza"} opció.
 	 * @return - a {@code "vissza"} opció kódja
 	 */
 

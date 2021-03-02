@@ -1,7 +1,7 @@
 package api;
 
 /**
- * Az osztály a panaszok tárolására szolgál
+ * Ez az osztály a panaszok tárolására szolgál
  * Implementálja az Entity interfészt
  * @since 01-03-2021 
  */

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
- *  A Complaint osztály a panaszok tárolására szolgál
+ * Ez az osztály az adatok tárolására szolgál
  * Implementálja az Entity interfészt
  * @since 01-03-2021 
  */
@@ -78,14 +78,22 @@ public class Table {
 		}
 	}
 
+	/**
+	 * Visszaakja az oszlopok neveit
+	 * @return oszlopok nevei
+	 */
 	public String[] getHeader() {
 		return this.header;
 	}
-
+	
 	public void setHeader(String[] header) {
 		this.header = header;
 	}
 
+	/**
+	 * Rekordok lekérdezése
+	 * @return A táblában taláható sorok
+	 */
 	public ArrayList<String[]> getRows() {
 		return this.rows;
 	}

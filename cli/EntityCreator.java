@@ -1,15 +1,17 @@
 package cli;
 
-/**
- * Ez egy statikus osztály, a termékek és panaszok bekérdezését teszi lehetővé
- */
-
 import api.Complaint;
 import api.Product;
 
+/**
+ * Ez az osztály statickus metódusokat tartalmaz, a termékek és panaszok beolvasását teszi lehetővé
+ * @since 01-03-2021 
+ */
+
+
 public class EntityCreator {
 	/**
-	 * Egy új Termék bekérdezése
+	 * Egy új Termék beolvasása
 	 * @return új termék
 	 */
 	public static Product createProduct() {
@@ -17,8 +19,8 @@ public class EntityCreator {
 		Product p = new Product();
 		boolean ok = false;
 		do {
-			//bekérdezzük az elsődleges kulcsot
-			int pid = Utils.readIntInRange(0, Integer.MAX_VALUE, "Pid: ");
+			//beolvasássuk az elsődleges kulcsot a felhasználótól
+			int pid = InputManager.readIntInRange(0, Integer.MAX_VALUE, "Pid: ");
 			try {
 				//Ha a termék már léteszik, akkor hibaüzenetet kapunk
 				if (Main.getDbm().doesProductExist(pid) == 0) {
@@ -33,20 +35,20 @@ public class EntityCreator {
 			}
 		} while (!ok);
 
-		String name = Utils.readString("Név: ");
+		String name = InputManager.readString("Név: ");
 		p.setName(name);
 
-		int price = Utils.readIntInRange(0, Integer.MAX_VALUE, "Ár: ");
+		int price = InputManager.readIntInRange(0, Integer.MAX_VALUE, "Ár: ");
 		p.setPrice(price);
 
-		int stock = Utils.readIntInRange(0, Integer.MAX_VALUE, "Mennység: ");
+		int stock = InputManager.readIntInRange(0, Integer.MAX_VALUE, "Mennység: ");
 		p.setStock(stock);
 
 		return p;
 	}
 
 	/**
-	 * Egy új Panasz bekérdezése
+	 * Egy új Panasz beovasása
 	 * @return új panasz
 	 */
 	public static Complaint createComplaint() {
@@ -54,8 +56,8 @@ public class EntityCreator {
 		Complaint c = new Complaint();
 		boolean ok = false;
 		do {
-			//bekérdezzük az elsődleges kulcsot
-			int cid = Utils.readIntInRange(0, Integer.MAX_VALUE, "Cid: ");
+			//beolvassuk az elsődleges kulcsot a felhasználótól
+			int cid = InputManager.readIntInRange(0, Integer.MAX_VALUE, "Cid: ");
 
 			try {
 				//Ha a panasz már léteszik, akkor hibaüzenetet kapunk
@@ -73,8 +75,8 @@ public class EntityCreator {
 
 		ok = false;
 		do {
-			//bekérdezzük a termékre mutató másodlagos kulcsot
-			int pid = Utils.readIntInRange(0, Integer.MAX_VALUE,"Pid: ");
+			//beolvassuk a termékre mutató másodlagos kulcsot a felhasználótól
+			int pid = InputManager.readIntInRange(0, Integer.MAX_VALUE,"Pid: ");
 			try {
 				//ha nem létezik ilyen termék akkor hibaüzenetet kapunk
 				if (Main.getDbm().doesProductExist(pid) != 0) {
@@ -89,7 +91,7 @@ public class EntityCreator {
 			}
 		} while (!ok);
 
-		String description = Utils.readString("Leírás: ");
+		String description = InputManager.readString("Leírás: ");
 
 		c.setDescription(description);
 		return c;

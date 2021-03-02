@@ -1,9 +1,9 @@
 package api;
 
 /**
- * @since 01-03-2021 
- * Az osztály a panaszok tárolására szolgál
+ * Ez az osztály a termékek tárolására szolgál.
  * Implementálja az Entity interfészt
+ *  @since 01-03-2021 
  */
 
 public class Product implements Entity {
