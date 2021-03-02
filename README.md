@@ -1,1 +1,1 @@
-# java szorgalmi házifeladat
+# adatbázis rendszerek II szorgalmi házifeladat
