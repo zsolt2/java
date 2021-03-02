@@ -5,7 +5,7 @@ import api.Product;
 import api.Table;
 
 /**
- * Főmenü
+ * Ez az osztály a főmenü megjelenítését, kezelését biztosítja
  */
 
 public class MainMenu {

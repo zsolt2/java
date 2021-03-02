@@ -6,7 +6,6 @@ import java.util.Set;
 
 /**
  * Ez az osztály az adatok tárolására szolgál
- * Implementálja az Entity interfészt
  * @since 01-03-2021 
  */
 

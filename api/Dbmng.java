@@ -1,5 +1,6 @@
 package api;
 
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -7,11 +8,12 @@ import java.util.ArrayList;
 
 
 /**
- * Ez az osztály magasabb szintű metódusokat biztosít amelyel az adatbázist tudjuk kezelni 
+ * Ez az osztály magasabb szintű metódusokat biztosít, amelyelekkel az adatbázist tudjuk kezelni 
  * @since 01-03-2021 
  */
 
 public class Dbmng {
+	/**Az adatbázis elérési útja*/
     private String path;
     private Dbmethods dbm;
     private ResultSet rs = null;
@@ -20,7 +22,11 @@ public class Dbmng {
         this.path = path;
         dbm = new Dbmethods();
     }
-
+    
+    /**
+     * Ezt a függvényt meg kell hívni miután létrehoztuk 
+     * @throws ClassNotFoundException
+     */
     public void init() throws ClassNotFoundException {
         Dbmethods.registerDriver();
     }
@@ -208,7 +214,8 @@ public class Dbmng {
      */
     public Table getAllTableNames() throws SQLException {
         dbm.connect(path);
-        rs = dbm.getConnection().getMetaData().getTables(null, null, null, null);
+        DatabaseMetaData dbMetadata = dbm.getConnection().getMetaData();
+        rs = dbMetadata.getTables(null,null, null, new String[]{"TABLE"});
 
         Table t = createTableFromResultSet(rs, new String[] { "TABLE_NAME" });
 

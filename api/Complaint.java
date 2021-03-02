@@ -68,7 +68,7 @@ public class Complaint implements Entity{
         return getCid() + ", " + getPid() + ", '" + getDescription() + "'";
     }
     /**
-     * Ez a függvény visszaadja paraméterek neveit egy string tömbben
+     * A függvény visszaadja a panasz paramétereinek a neveit egy string tömbben
      * @return paraméterek nevei string tömbben
      */
     public String[] getFields(){

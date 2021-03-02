@@ -2,7 +2,7 @@ package cli;
 
 import java.util.Scanner;
 /**
- * Ez a statikus osztály a beolvasásokat kezeli.
+ * Ez az osztály statikus metódusokat tartalmaz, amely a változók beolvasát kezeli a felhasználótól.
  * @since 01-03-2021 
  */
 public class InputManager {

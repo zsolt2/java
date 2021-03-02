@@ -3,13 +3,13 @@ package cli;
 import api.*;
 
 /**
- * Tábla bekérdezést kezelő menü. Lekérdezi az adatbázisból az összes elérhető táblát, és ezek közül tudunk választani egyet.
+ * Tábla kiválasztását kezelő menü. Lekérdezi az adatbázisból az összes elérhető táblát, és ezek közül tudunk választani egyet.
  * @since 01-03-2021 
  */
 
 public class TableSelectMenu {
 	/**
-	 * Tábla bekérdezést kezelő menü. Lekérdezi az adatbázisból az összes elérhető táblát, és ezek közül tudunk választani egyet.
+	 * Tábla kiválasztását kezelő menü. Lekérdezi az adatbázisból az összes elérhető táblát, és ezek közül tudunk választani egyet.
 	 * @return - Lekérdezett tábla neve
 	 */
 	public static String getChoosenTable() {
@@ -17,7 +17,10 @@ public class TableSelectMenu {
 			//Az összes tábla neve lekérdezése
 			Table t = Main.getDbm().getAllTableNames();
 			String[] tables = t.getColumn(1);
-			if (tables == null) {
+			
+			
+			
+			if (tables.length == 0) {
 				System.out.println("Nincsennek táblák az adatbázisban!");
 			}
 			//Menü létrehozása a lekérdezett tábla nevekkel

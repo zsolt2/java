@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 
 /**
- * Ez az osztály alcsony szintú jdbc függvényeket tartalmaz
+ * Ez az osztály alcsony szintű adatbázis kezelő függvényeket tartalmaz
  * @since 01-03-2021 
  */
 

@@ -1,7 +1,7 @@
 package cli;
 
 /**
- * Menü
+ * Ez az osztály a menük létrehozását, kiírását és a válasz beolvasását biztosítja
  * @since 01-03-2021 
  */
 
@@ -32,7 +32,7 @@ public class Menu {
 	 * Menü kiírása. 
 	 */
 	public void print() {
-		InputManager.clearScreen();
+		//InputManager.clearScreen();
 		System.out.println(header);
 		int i = 0;
 		for (i = 0; i < options.length; i++) {

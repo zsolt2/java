@@ -12,9 +12,16 @@ public class Main {
 	
 	/**
 	 * A program belépési pontja
-	 * @param args nem használt argumentum
+	 * @param a program nem használja fel a atandard inputról beérkező adatokat
 	 */
 	public static void main(String[] args) {
+		try {
+			dbm.init();
+		} catch (Exception e) {
+			// TODO: handle exception
+			ExceptionHandler.handle(e);
+		}
+		
 		MainMenu.Print();
 	}
 	

@@ -79,7 +79,7 @@ public class Product implements Entity {
 		return "'" + getPid() + "','" + getName() + "','" + getPrice() + "','" + getStock() + "'";
 	}
 	/**
-     * Ez a függvény visszaadja paraméterek neveit egy string tömbben
+     * A függvény visszaadj a termék paramétereinek a neveit egy string tömbben
      * @return paraméterek nevei string tömbben
      */
 	public String[] getFields() {
