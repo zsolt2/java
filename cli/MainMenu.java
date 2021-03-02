@@ -4,8 +4,13 @@ import api.Complaint;
 import api.Product;
 import api.Table;
 
+/**
+ * Főmenü
+ */
+
 public class MainMenu {
 	public static void Print() {
+		//Menü létrehozása
 		Menu mainMenu = new Menu("Főmenü", new String[] { "Tábla listázása", "Lekérdezés", "Tábla leírás", "Rekord hozzáadás", "Rekord törlése" }, "");
 		boolean running = true;
 		while (running == true) {
@@ -29,7 +34,6 @@ public class MainMenu {
 				running = false;
 				break;
 			default:
-
 				break;
 			}
 		}
@@ -89,8 +93,7 @@ public class MainMenu {
 					Utils.waitForInput("");
 				}
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
-				Utils.waitForInput("");
+				ExceptionHandler.handle(e);
 			}
 		} while (!tableName.isEmpty());
 	}
@@ -112,8 +115,7 @@ public class MainMenu {
 					Utils.waitForInput("");
 				}
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
-				Utils.waitForInput("");
+				ExceptionHandler.handle(e);
 			}
 		} while (!tableName.isEmpty());
 	}
@@ -127,39 +129,33 @@ public class MainMenu {
 					boolean ok = false;
 					do {
 						try {
-							System.out.println("Pid:");
-							int pid = Utils.readIntInRange(0, Integer.MAX_VALUE);
+							int pid = Utils.readIntInRange(0, Integer.MAX_VALUE, "Pid:");
 							Main.getDbm().deleteFromProduct(pid);
 							System.out.println("Sikeresen törölve");
 							Utils.waitForInput("Nyomj entert a folytatáshoz");
 							ok = true;
 						} catch (Exception e) {
 							ok = false;
-							System.out.println(e.getMessage());
-							Utils.waitForInput("Nyomj entert a folytatáshoz");
+							ExceptionHandler.handle(e);
 						}
 					} while (!ok);
 				} else if (tableName.equalsIgnoreCase("complaint")) {
 					boolean ok = false;
 					do {
 						try {
-							System.out.println("Cid:");
-							int cid = Utils.readIntInRange(0, Integer.MAX_VALUE);
+							int cid = Utils.readIntInRange(0, Integer.MAX_VALUE, "Cid:");
 							Main.getDbm().deleteFromComplaint(cid);
 							System.out.println("Sikeresen törölve");
 							Utils.waitForInput("Nyomj entert a folytatáshoz");
 							ok = true;
 						} catch (Exception e) {
 							ok = false;
-							System.out.println(e.getMessage());
-							Utils.waitForInput("Nyomj entert a folytatáshoz");
+							ExceptionHandler.handle(e);
 						}
 					} while (!ok);
 				}
 			} catch (Exception e) {
-
-				System.out.println(e.getMessage());
-				Utils.waitForInput("");
+				ExceptionHandler.handle(e);
 			}
 		} while (!tableName.isEmpty());
 	}

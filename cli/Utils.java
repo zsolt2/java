@@ -1,18 +1,26 @@
 package cli;
 
 import java.util.Scanner;
-
+/**
+ * Ez a statikus osztály a beolvasásokat kezeli.
+ * @since 01-03-2021 
+ */
 public class Utils {
 
 	public static char delimiter = '\t';
 
 	private static Scanner in = new Scanner(System.in);
-
-	public static int readInt() {
+	/**
+	 * Egész szám beolvasása
+	 * @param msg a beolvassás előtt megjelenő szöveg
+	 * @return beolvasott szám
+	 */
+	public static int readInt( String msg) {
 		boolean ok = false;
 
 		int input = 0;
 		do {
+			System.out.println(msg);
 			String s = in.nextLine();
 			try {
 				input = Integer.parseInt(s);
@@ -23,11 +31,20 @@ public class Utils {
 		} while (ok != true);
 		return input;
 	}
-
-	public static int readIntInRange(int min, int max) {
+	/**
+	 * Egész szám beolvasása egy adott zárt intervallumban
+	 * @param min alsó határ (zárt)
+	 * @param max felső határ (zárt)
+	 * @param msg a beolvassás előtt megjelenő szöveg
+	 * @return beolvasott egész szám
+	 */
+	public static int readIntInRange(int min, int max, String msg) {
 		boolean ok = false;
 		int input = max;
 		do {
+			if( msg != null ){
+				System.out.println(msg);
+			}
 			String s = in.nextLine();
 			try {
 				input = Integer.parseInt(s);
@@ -36,11 +53,16 @@ public class Utils {
 				else
 					System.out.println("Nem megfelő input");
 			} catch (Exception e) {
-				System.out.println("Nem megfelelő input");
+				ExceptionHandler.handle(e);
 			}
 		} while (ok != true);
 		return input;
 	}
+
+	/**
+	 * A futtatás leállítása addig, amíg nincs input.
+	 * @param msg megjelenő üzenet. Ha az értéke üreshalmaz akkor {@code "Nyomjon Entert a visszalépéshez!"} alapértéket vesz fel.
+	 */
 
 	public static void waitForInput(String msg) {
 		if (msg.isEmpty()) {
@@ -49,12 +71,18 @@ public class Utils {
 		System.err.println(msg);
 		in.nextLine();
 	}
-
+	/**
+	 * Konzol törlése
+	 */
 	public static void clearScreen() {
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
 	}
-
+	/**
+	 * Szöveg beolvasása
+	 * @param msg a beolvasás előtt megjelenő szöveg
+	 * @return beolvasott szöveg
+	 */
 	public static String readString(String msg) {
 		System.out.println(msg);
 		return in.nextLine();

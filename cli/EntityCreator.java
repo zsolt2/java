@@ -1,17 +1,26 @@
 package cli;
 
+/**
+ * Ez egy statikus osztály, a termékek és panaszok bekérdezését teszi lehetővé
+ */
+
 import api.Complaint;
 import api.Product;
 
 public class EntityCreator {
+	/**
+	 * Egy új Termék bekérdezése
+	 * @return új termék
+	 */
 	public static Product createProduct() {
 		System.out.println("Új termék felvitele:");
 		Product p = new Product();
 		boolean ok = false;
 		do {
-			System.out.println("Pid: ");
-			int pid = Utils.readIntInRange(0, Integer.MAX_VALUE);
+			//bekérdezzük az elsődleges kulcsot
+			int pid = Utils.readIntInRange(0, Integer.MAX_VALUE, "Pid: ");
 			try {
+				//Ha a termék már léteszik, akkor hibaüzenetet kapunk
 				if (Main.getDbm().doesProductExist(pid) == 0) {
 					p.setPid(pid);
 					ok = true;
@@ -19,7 +28,7 @@ public class EntityCreator {
 					System.out.println("Ilyen kulcsú termék már létezik: ");
 				}
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
+				ExceptionHandler.handle(e);
 				return null;
 			}
 		} while (!ok);
@@ -27,26 +36,29 @@ public class EntityCreator {
 		String name = Utils.readString("Név: ");
 		p.setName(name);
 
-		System.out.println("Ár: ");
-		int price = Utils.readIntInRange(0, Integer.MAX_VALUE);
+		int price = Utils.readIntInRange(0, Integer.MAX_VALUE, "Ár: ");
 		p.setPrice(price);
 
-		System.out.println("Mennység: ");
-		int stock = Utils.readIntInRange(0, Integer.MAX_VALUE);
+		int stock = Utils.readIntInRange(0, Integer.MAX_VALUE, "Mennység: ");
 		p.setStock(stock);
 
 		return p;
 	}
 
+	/**
+	 * Egy új Panasz bekérdezése
+	 * @return új panasz
+	 */
 	public static Complaint createComplaint() {
 		System.out.println("Új panasz felvitele:");
 		Complaint c = new Complaint();
 		boolean ok = false;
 		do {
-			System.out.println("Cid: ");
-			int cid = Utils.readIntInRange(0, Integer.MAX_VALUE);
+			//bekérdezzük az elsődleges kulcsot
+			int cid = Utils.readIntInRange(0, Integer.MAX_VALUE, "Cid: ");
 
 			try {
+				//Ha a panasz már léteszik, akkor hibaüzenetet kapunk
 				if (Main.getDbm().doesComplaintExist(cid) == 0) {
 					c.setCid(cid);
 					ok = true;
@@ -54,16 +66,17 @@ public class EntityCreator {
 					System.out.println("Ilyen kulcsú panasz már létezik!");
 				}
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
+				ExceptionHandler.handle(e);
 				return null;
 			}
 		} while (!ok);
 
 		ok = false;
 		do {
-			System.out.println("Pid: ");
-			int pid = Utils.readIntInRange(0, Integer.MAX_VALUE);
+			//bekérdezzük a termékre mutató másodlagos kulcsot
+			int pid = Utils.readIntInRange(0, Integer.MAX_VALUE,"Pid: ");
 			try {
+				//ha nem létezik ilyen termék akkor hibaüzenetet kapunk
 				if (Main.getDbm().doesProductExist(pid) != 0) {
 					c.setPid(pid);
 					ok = true;
@@ -71,7 +84,7 @@ public class EntityCreator {
 					System.out.println("Nincs ilyen kulcsú termék!");
 				}
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
+				ExceptionHandler.handle(e);
 				return null;
 			}
 		} while (!ok);

@@ -1,1 +1,1 @@
-# java
+# java szorgalmi házifeladat

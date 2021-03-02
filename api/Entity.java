@@ -1,5 +1,9 @@
 package api;
 
+/**
+ * @since 01-03-2021 
+ */
+
 public interface Entity {
 
 	public static char delimiter = '\t';

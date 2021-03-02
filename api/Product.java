@@ -1,13 +1,30 @@
 package api;
 
+/**
+ * @since 01-03-2021 
+ * Az osztály a panaszok tárolására szolgál
+ * Implementálja az Entity interfészt
+ */
+
 public class Product implements Entity {
 	private int pid;
-	private String name;
+	private String name ="";
 	private int price;
 	private int stock;
 
+	/**
+     * Paraméter nélküli konstruktor
+     */
 	public Product() {
 	}
+
+	/**
+	 * Konstruktor
+	 * @param pid a termék id-je, az adatbázisban az eslődleges kulcs 
+	 * @param name a termék neve
+	 * @param price a termék ára 
+	 * @param stock	a termék mennyisége
+	 */
 
 	public Product(int pid, String name, int price, int stock) {
 		this.pid = pid;
@@ -54,14 +71,24 @@ public class Product implements Entity {
 				+ ", stock='" + getStock() + "'" + "}";
 	}
 
+	/**
+     * A függvény vissza adja a termék paramétereit veszzővel elválasztva, ez megkönnyíti az SQL parancsok létrehozását.
+     * @return paraméterek értéke veszzővel elválasztva
+     */
 	public String values() {
 		return "'" + getPid() + "','" + getName() + "','" + getPrice() + "','" + getStock() + "'";
 	}
-
+	/**
+     * Ez a függvény visszaadja paraméterek neveit egy string tömbben
+     * @return paraméterek nevei string tömbben
+     */
 	public String[] getFields() {
 		return new String[] { "pid", "name", "price", "stock" };
 	}
-
+	/**
+     * A függvény vissza adja a termék paramétereit egy string tömbben
+     * @return paraméterek értéke string tömbben
+     */
 	public String[] getTableRow() {
 		return new String[] { String.valueOf(getPid()), getName(), String.valueOf(getPrice()),
 				String.valueOf(getStock()) };

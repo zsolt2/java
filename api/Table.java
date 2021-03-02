@@ -4,54 +4,71 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-public class Table {
+/**
+ *  A Complaint osztály a panaszok tárolására szolgál
+ * Implementálja az Entity interfészt
+ * @since 01-03-2021 
+ */
 
+public class Table {
+	/**
+	 * Privát Index osztály.
+	 * A táblában található oszlop nevét és sorszámát tárolja
+	 */
 	private static class Index {
-		String name;
-		int num;
+		String name; // az oszlop neve
+		int num;     // az oszlop sorszáma
 
 		public Index(String name, int num) {
 			this.name = name;
 			this.num = num;
 		}
 	}
+	/** Az oszlopok nevei */
+	private String[] header = null;	
+	/**A tábla sorai */    	
+	private ArrayList<String[]> rows = null;	
+	/**A tábla oszlopai */
+	private HashMap<Index, String[]> columns = null;
 
-	private String[] header;
-	private ArrayList<String[]> rows;
-	private HashMap<Index, String[]> columns;
-
-	public Table() {
-	}
+	/**
+	 * Konstruktor
+	 * @param header a tábla oszlopainak a neve
+	 * @param rows a tábla sorai
+	 */
 
 	public Table(String[] header, ArrayList<String[]> rows) {
 		this.header = header;
 		this.rows = rows;
-
-		this.columns = new HashMap<Index, String[]>();
-
-		for (int i = 0; i < header.length; i++) {
-			String[] column = new String[rows.size()];
-			for (int j = 0; j < rows.size(); j++) {
-				column[j] = rows.get(j)[i];
-			}
-			columns.put(new Index(header[i], i + 1), column);
-		}
-
+		generateColumns();
 	}
 
-	public Table(ArrayList<? extends Entity> agents) {
-		if (agents.isEmpty()) {
+	/**
+	 * Konstrukotr
+	 * Tábla létrehozása {@code Entity} tömbből
+	 * @param entities panaszok vagy termékek tömbje
+	 */
+
+	public Table(ArrayList<? extends Entity> entities) {
+		if (entities.isEmpty()) {
 			this.header = null;
 			this.rows = null;
 			this.columns = null;
 			return;
 		}
-		this.header = agents.get(0).getFields();
+		this.header = entities.get(0).getFields();
 		this.rows = new ArrayList<String[]>();
-		for (Entity a : agents) {
+		for (Entity a : entities) {
 			this.rows.add(a.getTableRow());
 		}
+		generateColumns();
+	}
+	/**
+	 * Ez a függvény az oszlopokat hozza létre
+	 */
+	private void generateColumns(){
 		this.columns = new HashMap<Index, String[]>();
+
 		for (int i = 0; i < header.length; i++) {
 			String[] column = new String[rows.size()];
 			for (int j = 0; j < rows.size(); j++) {
@@ -77,12 +94,18 @@ public class Table {
 		this.rows = rows;
 	}
 
+	/**
+	 * Oszlop kiíratása
+	 */
+
 	public void print() {
+		//Ha a táblában nincsennek sorok kilép
 		if (rows.isEmpty() == true)
 			return;
-
+		//Oszlopok száma
 		int numColumns = header.length;
-
+		
+		//Minden oszlopban meghatározzuk hogy melyik a leghosszabb elem
 		int[] maxLengths = new int[numColumns];
 
 		for (int i = 0; i < maxLengths.length; i++) {
@@ -94,12 +117,16 @@ public class Table {
 			}
 		}
 
+		//Minden oszlopban a leghosszabb elemhez igazítjuk az oszlop szélességét
 		String Template = "| ";
 		for (int j = 0; j < maxLengths.length; j++) {
-			Template += "%" /* + (j==0?"-":"") */ + (maxLengths[j] + 2) + "s |";
+			Template += "%"  + (maxLengths[j] + 2) + "s |";
 		}
-
+		
+		//Az oszlop fejlécének létrehozása
 		String headerLine = String.format(Template, (Object[]) header);
+		
+		//Sorokat elválasztó vonalak létrehozása
 		String lineBold = "";
 		String line = "";
 		for (int i = 0; i < headerLine.length(); i++) {
@@ -107,11 +134,13 @@ public class Table {
 			line += "-";
 		}
 
+		//Fejléc kiírása
 		System.out.println(lineBold);
 		System.out.println(headerLine);
 		System.out.println(lineBold);
 
 		Template += "%n";
+		//Srorok kiírása
 		for (String[] row : rows) {
 			System.out.printf(Template, (Object[]) row);
 			if (row != rows.get(rows.size() - 1))
@@ -119,7 +148,12 @@ public class Table {
 		}
 		System.out.println(lineBold);
 	}
-
+	/**
+	 * Oszlop lekérdezése az oszlop neve szerint
+	 * Nemlétező oszlopnév esetén {@code null} értékkel tér vissza
+	 * @param columnName az oszlop neve
+	 * @return az oszlopban található adatok
+	 */
 	public String[] getColumn(String columnName) {
 		Set<Index> indexes = columns.keySet();
 		for (Index i : indexes) {
@@ -130,6 +164,12 @@ public class Table {
 		return null;
 	}
 
+	/**
+	 * Oszlop lekérdezése az oszlop sorszáma szerint
+	 * Nemlétező sorszáma esetén {@code null} értékkel tér vissza
+	 * @param columnNum az oszlop sorszáma
+	 * @return az oszlopban található adatok
+	 */
 	public String[] getColumn(int columnNum) {
 		Set<Index> indexes = columns.keySet();
 		for (Index i : indexes) {
@@ -140,6 +180,11 @@ public class Table {
 		return null;
 	}
 
+	/**
+	 * Tartalmaz-e a tábla adatokat
+	 * @return {@code true} - a tábla üres
+	 * 	       {@code false} - a tábla nem üres
+	 */
 	public boolean isEmpty() {
 		return rows.size() == 0;
 	}
